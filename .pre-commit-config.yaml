@@ -8,8 +8,10 @@ repos:
       args: ['table']
       exclude: common/*.tf
       exclude: version.tf
-    - id: terraform_tflint 
-      args:  [ "--args=--config=__GIT_WORKING_DIR__/.tflint.hcl"]
+      exclude: examples
+#    - id: terraform_tflint 
+#      args:  [ "--args=--config=__GIT_WORKING_DIR__/.tflint.hcl"]
+#      exclude: examples
 - repo: https://github.com/pre-commit/pre-commit-hooks
   rev: v3.4.0
   hooks:
