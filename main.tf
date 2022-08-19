@@ -27,9 +27,7 @@ resource "aws_ecr_repository" "apps_repos" {
   }
 
   tags = merge(
-    local.common_tags,
     local.base_tags,
-    var.application_tags,
     tomap({
       "Name"        = format("ecr_%v/%v", var.application_name, each.key)
       "Environment" = "application"
