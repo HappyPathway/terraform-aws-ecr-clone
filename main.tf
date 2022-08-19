@@ -55,13 +55,23 @@ locals {
   account_ecr_registry = format("%v.dkr.ecr.%v.amazonaws.com", local.account_id, local.region)
   account_ecr          = format("%v/%v", local.account_ecr_registry, local.repo_parent_name)
 
+  ##   images = { for i in var.image_config : format("%v#%v", i.name, i.tag) =>
+  ##     merge(i, tomap({
+  ##       key              = format("%v#%v", i.name, i.tag),
+  ##       source_full_path = format("%v/%v:%v", i.source_registry, i.source_image, element(compact(concat([lookup(i, "source_tag", null)], [i.tag])), 0)),
+  ##       dest_registry    = local.account_ecr_registry,
+  ##       dest_full_path   = i.repo_path != null ? format("%v/%v/%v/%v:%v", local.account_ecr_registry, local.repo_parent_name, i.repo_path, i.name, i.tag) : format("%v/%v/%v:%v", local.account_ecr_registry, local.repo_parent_name, i.name, i.tag),
+  ##       dest_repository  = i.repo_path != null ? format("%v/%v/%v", local.repo_parent_name, i.repo_path, i.name) : format("%v/%v", local.repo_parent_name, i.name),
+  ##   })) }
+
+
   images = { for i in var.image_config : format("%v#%v", i.name, i.tag) =>
     merge(i, tomap({
       key              = format("%v#%v", i.name, i.tag),
       source_full_path = format("%v/%v:%v", i.source_registry, i.source_image, element(compact(concat([lookup(i, "source_tag", null)], [i.tag])), 0)),
       dest_registry    = local.account_ecr_registry,
-      dest_full_path   = i.repo_path != null ? format("%v/%v/%v/%v:%v", local.account_ecr_registry, local.repo_parent_name, i.repo_path, i.name, i.tag) : format("%v/%v/%v:%v", local.account_ecr_registry, local.repo_parent_name, i.name, i.tag),
-      dest_repository  = i.repo_path != null ? format("%v/%v/%v", local.repo_parent_name, i.repo_path, i.name) : format("%v/%v", local.repo_parent_name, i.name),
+      dest_full_path   = format("%v/%v/%v:%v", local.account_ecr_registry, local.repo_parent_name, i.name, i.tag),
+      dest_repository  = format("%v/%v", local.repo_parent_name, i.name),
   })) }
 
   image_repos = { for k, v in local.images : k => format("%v/%v", local.account_ecr, v.name) }
