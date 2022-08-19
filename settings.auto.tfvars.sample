@@ -1,4 +1,4 @@
-app_name        = "adsd-cumulus"
+application_name        = "adsd-cumulus"
 ecr_region = "us-gov-east-1"
 #destination_password  = ""
 #destination_username  = ""

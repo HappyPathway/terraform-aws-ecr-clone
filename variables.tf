@@ -1,22 +1,22 @@
-variable "app_name" {
+variable "application_name" {
   description = "Appliication name, usually {org}-{project}, which is likely a prefix to the EKS cluster name"
-  type = string
+  type        = string
 }
 
 variable "application_list" {
-  description = "List of application repositories to create for /{app_name}/{image_name} for those not in image_config"
+  description = "List of application repositories to create for /{application_name}/{image_name} for those not in image_config"
   type        = list(string)
   default     = []
 }
 
-variable "ecr_region" {
+variable "region" {
   description = "Region in which to create the ECR repositories (default of current region)"
-  type = string
-  default = null
+  type        = string
+  default     = null
 }
 
 variable "image_config" {
-  description = "List of image configuration objects to copy from NRC to DST"
+  description = "List of image configuration objects to copy from SOURCE to DESTINATION"
   type = list(object({
     name            = string,
     tag             = string,

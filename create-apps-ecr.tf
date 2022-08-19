@@ -1,6 +1,6 @@
 locals {
   application_list = var.application_list
-  ecr_repo_list    = { for app in local.application_list : app => format("%v/%v", var.app_name, app) }
+  ecr_repo_list    = { for app in local.application_list : app => format("%v/%v", var.application_name, app) }
 }
 
 resource "aws_ecr_repository" "apps_repos" {
@@ -21,7 +21,7 @@ resource "aws_ecr_repository" "apps_repos" {
     local.base_tags,
     var.application_tags,
     tomap({
-      "Name"        = format("ecr_%v/%v", var.app_name, each.key)
+      "Name"        = format("ecr_%v/%v", var.application_name, each.key)
       "Environment" = "application"
     }),
   )

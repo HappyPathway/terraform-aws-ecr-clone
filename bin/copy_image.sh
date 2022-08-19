@@ -1,5 +1,7 @@
 #!/bin/bash
 
+VERSION="1.0.0"
+
 ###############################################################################
 # This script uses skopeo to copy a docker image from one repository to
 # another.  The primary intent is to copy the image from a public repository

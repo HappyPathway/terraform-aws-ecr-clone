@@ -9,9 +9,9 @@ data "aws_availability_zones" "zones" {
 }
 
 data "aws_availability_zone" "zone" {
-  count = length(data.aws_availability_zones.zones.names)
+  count = toset(data.aws_availability_zones.zones.names)
   state = "available"
-  name  = data.aws_availability_zones.zones.names[count.index]
+  name  = each.key
 }
 
 output "availability_zone_names" {
