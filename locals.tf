@@ -9,6 +9,4 @@ locals {
   _account_alias      = var.account_alias == null || var.account_alias == "" ? data.aws_iam_account_alias.current.account_alias : var.account_alias
   account_alias       = replace(local._account_alias, "do2", "do1")
   account_environment = data.aws_arn.current.partition == "aws-us-gov" ? "gov" : "ew"
-
-  region = data.aws_region.current.name
 }

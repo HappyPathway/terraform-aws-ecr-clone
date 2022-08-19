@@ -52,7 +52,7 @@ data "aws_ecr_authorization_token" "token" {}
 
 locals {
   repo_parent_name = format("%v", var.application_name)
-  region           = var.region == null ? local.region : var.region
+  region           = var.region == null ? data.aws_region.current.name : var.region
 
   account_ecr_registry = format("%v.dkr.ecr.%v.amazonaws.com", local.account_id, local.ecr_region)
   account_ecr          = format("%v/%v", local.account_ecr_registry, local.repo_parent_name)
@@ -71,7 +71,7 @@ locals {
 
 resource "null_resource" "copy_images" {
   triggers = {
-    ecr_region = local.ecr_region
+    region = local.region
   }
   for_each = { for image in local.images : image.key => image if image.enabled }
 
