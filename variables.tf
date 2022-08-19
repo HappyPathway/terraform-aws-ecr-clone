@@ -1,3 +1,8 @@
+variable "profile" {
+  description = "AWS Profile Name, used generating key rotation file"
+  type        = string
+}
+
 variable "application_name" {
   description = "Appliication name, usually {org}-{project}, which is likely a prefix to the EKS cluster name"
   type        = string

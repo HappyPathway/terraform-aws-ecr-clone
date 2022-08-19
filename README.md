@@ -43,6 +43,7 @@ No modules.
 | <a name="input_destination_username"></a> [destination\_username](#input\_destination\_username) | OCI destination repository username | `string` | `null` | no |
 | <a name="input_image_config"></a> [image\_config](#input\_image\_config) | List of image configuration objects to copy from SOURCE to DESTINATION | <pre>list(object({<br>    name            = string,<br>    tag             = string,<br>    dest_path       = string,<br>    source_registry = string,<br>    source_image    = string,<br>    source_tag      = string,<br>    enabled         = bool,<br>  }))</pre> | `[]` | no |
 | <a name="input_override_prefixes"></a> [override\_prefixes](#input\_override\_prefixes) | Override built-in prefixes by component. This should be used primarily for common infrastructure things | `map(string)` | `{}` | no |
+| <a name="input_profile"></a> [profile](#input\_profile) | AWS Profile Name, used generating key rotation file | `string` | n/a | yes |
 | <a name="input_region"></a> [region](#input\_region) | Region in which to create the ECR repositories (default of current region) | `string` | `null` | no |
 | <a name="input_source_password"></a> [source\_password](#input\_source\_password) | OCI source repository password | `string` | `null` | no |
 | <a name="input_source_username"></a> [source\_username](#input\_source\_username) | OCI source repository username | `string` | `null` | no |
