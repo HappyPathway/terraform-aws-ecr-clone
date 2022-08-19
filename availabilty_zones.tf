@@ -26,5 +26,5 @@ output "availability_zone_ids" {
 
 output "availability_zone_suffixes" {
   description = "VPC Availability zone suffix list (3)"
-  value       = data.aws_availability_zone.zone[*].name_suffix
+  value       = [for k, v in data.aws_availability_zone.zone : v.name_suffix]
 }
