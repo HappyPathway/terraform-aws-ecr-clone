@@ -1,11 +1,11 @@
 /*
 * # About aws-ecr-copy-images
-* This module will create ECR repositories with the prefix of _application_name_ for the list of
-* repositories in _application_list_.  This allows for a project to upload their images into
-* /{application_name}/{sub_app}/_image_:_tag_.
+* This module will create ECR repositories with the prefix of {application_name} for the list of
+* repositories in {application_list}.  This allows for a project to upload their images into
+* /{application_name}/{sub_app}/{image}:{tag}.
 *
 * Also, if provided a list of source image configurations, it will download them from their location
-* and upload them to the prefix of _application_name_ followed by the _name_ in the `image_config`
+* and upload them to the prefix of {application_name} followed by the {name} in the `image_config`
 * object.
 *
 * # Usage
