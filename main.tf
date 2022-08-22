@@ -75,6 +75,8 @@
 * org-project/openjdk-8	817869416306.dkr.ecr.us-gov-east-1.amazonaws.com/org-project/openjdk-8 August 22, 2022, 12:43:57 (UTC-04)	Enabled	Enabled	KMS
 * ```
 * 
+* # Caveats
+* Currently, a destroy of the images (null_resources) does **NOT** remove the repository. That is a work in progress.
 */
 
 locals {
