@@ -1,8 +1,80 @@
 /*
-* # aws-ecr-copy-images
+* # About aws-ecr-copy-images
+* This module will create ECR repositories with the prefix of `_application_name_` for the list of
+* repositories in `_application_list_`.  This allows for a project to upload their images into
+* /{application_name}/{sub_app}/_image_:_tag_.
+*
+* Also, if provided a list of source image configurations, it will download them from their location
+* and upload them to the prefix of `_application_name_` followed by the _name_ in the `image_config`
+* object.
 *
 * # Usage
-#
+*
+* ```hcl
+* locals {
+*   image_config = [
+*     {
+*       enabled         = true
+*       dest_path       = null
+*       name            = "openjdk-8"
+*       source_image    = "ubi8/openjdk-8"
+*       source_registry = "registry.access.redhat.com"
+*       source_tag      = null
+*       tag             = "latest"
+*     },
+*     {
+*       enabled         = true
+*       name            = "nginx-118"
+*       dest_path       = null
+*       source_image    = "ubi8/nginx-118"
+*       source_registry = "registry.access.redhat.com"
+*       source_tag      = null
+*       tag             = "latest"
+*     },
+*     {
+*       enabled         = true
+*       name            = "nodejs-14"
+*       dest_path       = null
+*       source_image    = "ubi8/nodejs-14"
+*       source_registry = "registry.access.redhat.com"
+*       source_tag      = null
+*       tag             = "latest"
+*     },
+*   ]
+* }
+* 
+* module "images" {
+*   source = "git@github.e.it.census.gov:terraform-modules/aws-ecr-copy-images.git"
+* 
+*   application_list = ["app1", "app2"]
+*   application_name = "org-project"
+*   image_config     = local.image_config
+*   tags             = {}
+* 
+*   ### optional
+*   ##  account_alias        = ""
+*   ##  account_id           = ""
+*   ##  destination_password = ""
+*   ##  destination_username = ""
+*   ##  override_prefixes    = {}
+*   ##  region               = ""
+*   ##  source_password      = ""
+*   ##  source_username      = ""
+* }
+* ```
+* 
+* This creates the following ECR images
+* 
+* ```	
+* Repository name URI Created at Tag immutability Scan on push Encryption type
+* 
+* org-project/app1	817869416306.dkr.ecr.us-gov-east-1.amazonaws.com/org-project/app1 August 22, 2022, 13:12:06 (UTC-04)	Enabled	Enabled	KMS 
+* org-project/app2	817869416306.dkr.ecr.us-gov-east-1.amazonaws.com/org-project/app2 August 22, 2022, 13:12:06 (UTC-04)	Enabled	Enabled	KMS 
+* org-project/nginx-118	817869416306.dkr.ecr.us-gov-east-1.amazonaws.com/org-project/nginx-118 August 22, 2022, 12:43:57 (UTC-04)	Enabled	Enabled	KMS
+* org-project/nodejs-14	817869416306.dkr.ecr.us-gov-east-1.amazonaws.com/org-project/nodejs-14 August 22, 2022, 12:43:57 (UTC-04)	Enabled	Enabled	KMS 
+* org-project/openjdk-8	817869416306.dkr.ecr.us-gov-east-1.amazonaws.com/org-project/openjdk-8 August 22, 2022, 12:43:57 (UTC-04)	Enabled	Enabled	KMS
+* ```
+* 
 */
 
 locals {
