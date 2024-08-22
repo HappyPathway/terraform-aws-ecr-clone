@@ -132,3 +132,6 @@ No modules.
 | <a name="output_availability_zone_names"></a> [availability\_zone\_names](#output\_availability\_zone\_names) | VPC Availability zone name list (3) |
 | <a name="output_availability_zone_suffixes"></a> [availability\_zone\_suffixes](#output\_availability\_zone\_suffixes) | VPC Availability zone suffix list (3) |
 | <a name="output_images"></a> [images](#output\_images) | Final full merge of images with extra details |
+=======
+# terraform-aws-ecr-clone
+Terraform Workspace
