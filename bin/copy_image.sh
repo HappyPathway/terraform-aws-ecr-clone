@@ -240,7 +240,7 @@ destination_image_exists() {
 	status=$?
 	echo "* destination_image_exists() status=$status"
 	# return 0 if it does, 1 if not
-	return $?
+	return ${status}
 }
 
 copy_image() {
