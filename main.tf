@@ -170,4 +170,7 @@ resource "null_resource" "copy_images" {
       DESTINATION_PASSWORD = var.destination_password == null ? data.aws_ecr_authorization_token.token.password : var.destination_password
     }
   }
+  depends_on = [
+    aws_ecr_repository.apps_repo
+  ]
 }
