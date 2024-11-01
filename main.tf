@@ -1,6 +1,6 @@
 
 locals {
-  ecr_repo_list = { for app in var.application_list : app => format("%v/%v", var.application_name, app) }
+  ecr_repo_list = { for image in var.images_list : image => format("%v/%v", var.registry_name, image) }
 }
 
 resource "aws_ecr_repository" "apps_repos" {
@@ -17,9 +17,8 @@ resource "aws_ecr_repository" "apps_repos" {
   }
 
   tags = merge(
-    local.base_tags,
     tomap({
-      "Name"        = format("ecr_%v/%v", var.application_name, each.key)
+      "Name"        = format("ecr_%v/%v", var.registry_name, each.key)
       "Environment" = "application"
     }),
   )
@@ -35,7 +34,7 @@ data "aws_ecr_authorization_token" "token" {}
 locals {
   destination_username = var.destination_username == null ? data.aws_ecr_authorization_token.token.user_name : var.destination_username
   destination_password = var.destination_password == null ? data.aws_ecr_authorization_token.token.password : var.destination_password
-  repo_parent_name     = format("%v", var.application_name)
+  repo_parent_name     = format("%v", var.registry_name)
   region               = var.region == null ? data.aws_region.current.name : var.region
 
   account_ecr_registry = format("%v.dkr.ecr.%v.amazonaws.com", local.account_id, local.region)
@@ -61,7 +60,6 @@ locals {
   }
 }
 
-
 resource "aws_ecr_repository" "image_repos" {
   for_each             = toset([for image in local.images : image.name])
   name                 = "${local.repo_parent_name}/${each.key}"
@@ -76,9 +74,8 @@ resource "aws_ecr_repository" "image_repos" {
   }
 
   tags = merge(
-    local.base_tags,
     tomap({
-      "Name"        = format("ecr_%v/%v", var.application_name, each.key)
+      "Name"        = format("ecr_%v/%v", var.registry_name, each.key)
       "Environment" = "application"
     }),
   )
@@ -98,5 +95,14 @@ resource "null_resource" "copy_images" {
   depends_on = [
     aws_ecr_repository.apps_repos,
     aws_ecr_repository.image_repos
+  ]
+}
+
+
+resource "terraform_data" "images" {
+  input = local.images
+  depends_on = [
+    aws_ecr_repository.image_repos,
+    null_resource.copy_images
   ]
 }
